@@ -1,0 +1,5 @@
+{
+  "id": "03-debug-artifact",
+  "expectedFindings": 1,
+  "diff": "+ window.__cache = cache;\n+ console.log('debug', state);\n"
+}

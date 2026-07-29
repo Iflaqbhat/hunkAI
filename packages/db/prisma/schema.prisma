@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReviewStatus {
+  queued
+  analyzing
+  completed
+  failed
+}
+
+enum Severity {
+  info
+  low
+  medium
+  high
+  critical
+}
+
+enum RiskCategory {
+  correctness
+  security
+  testCoverage
+  performance
+  aiAuthorship
+}
+
+model Organization {
+  id             String         @id @default(cuid())
+  name           String
+  slug           String         @unique
+  plan           String         @default("free")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  installations  Installation[]
+  repositories   Repository[]
+  pullRequests    PullRequest[]
+  reviews        Review[]
+  waitlistEntries WaitlistEntry[]
+  evalRuns       EvalRun[]
+}
+
+model Installation {
+  id                    String       @id @default(cuid())
+  organizationId        String
+  githubInstallationId  Int          @unique
+  accountLogin          String
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  organization         Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model Repository {
+  id                String        @id @default(cuid())
+  organizationId    String
+  githubRepositoryId Int          @unique
+  fullName          String
+  defaultBranch     String?
+  installed         Boolean       @default(true)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  organization      Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pullRequests      PullRequest[]
+}
+
+model PullRequest {
+  id              String      @id @default(cuid())
+  organizationId  String
+  repositoryId    String
+  githubPrId      Int
+  number          Int
+  title           String
+  authorLogin     String
+  headSha         String
+  baseSha         String
+  url             String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  repository      Repository   @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  reviews         Review[]
+
+  @@unique([repositoryId, number])
+}
+
+model Review {
+  id             String       @id @default(cuid())
+  organizationId String
+  pullRequestId  String
+  score          Int
+  status         ReviewStatus @default(queued)
+  summary        String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pullRequest    PullRequest   @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+  findings       Finding[]
+}
+
+model Finding {
+  id            String       @id @default(cuid())
+  reviewId      String
+  category      RiskCategory
+  severity      Severity
+  title         String
+  summary       String
+  filePath      String
+  lineStart     Int
+  lineEnd       Int
+  confidence    Float
+  createdAt     DateTime     @default(now())
+  review        Review       @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
+
+model WaitlistEntry {
+  id            String       @id @default(cuid())
+  organizationId String?
+  email         String       @unique
+  createdAt     DateTime     @default(now())
+  organization  Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+}
+
+model EvalRun {
+  id             String       @id @default(cuid())
+  organizationId String
+  datasetVersion String
+  precision      Float
+  recall         Float
+  f1             Float
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}

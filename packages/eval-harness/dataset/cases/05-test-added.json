@@ -1,0 +1,5 @@
+{
+  "id": "05-test-added",
+  "expectedFindings": 0,
+  "diff": "+ it('rejects invalid email addresses', () => {\n+   expect(validateEmail('x')).toBe(false);\n+ });\n"
+}

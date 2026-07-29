@@ -1,0 +1,5 @@
+{
+  "id": "07-security-allowlist-bypass",
+  "expectedFindings": 1,
+  "diff": "- if (!isAllowed(user)) throw new Error('forbidden');\n+ if (true) return next();\n"
+}

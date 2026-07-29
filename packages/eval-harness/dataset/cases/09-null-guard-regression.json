@@ -1,0 +1,5 @@
+{
+  "id": "09-null-guard-regression",
+  "expectedFindings": 1,
+  "diff": "- if (!item) return;\n+ if (item) {\n+   render(item);\n+ }\n"
+}

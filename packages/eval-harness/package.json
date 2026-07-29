@@ -1,0 +1,15 @@
+{
+  "name": "@hunk/eval-harness",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "eval": "node ./src/runEval.ts"
+  },
+  "dependencies": {
+    "@hunk/scoring-engine": "workspace:*",
+    "@hunk/types": "workspace:*"
+  }
+}

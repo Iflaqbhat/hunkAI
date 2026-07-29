@@ -1,0 +1,5 @@
+{
+  "id": "06-n-plus-one",
+  "expectedFindings": 1,
+  "diff": "- const users = await db.user.findMany();\n+ const users = await db.user.findMany();\n+ for (const user of users) {\n+   await db.post.findMany({ where: { userId: user.id } });\n+ }\n"
+}

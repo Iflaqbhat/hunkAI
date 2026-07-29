@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "ignoreDeprecations": "5.0",
+    "allowJs": false,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@hunk/types": ["packages/types/src"],
+      "@hunk/config/*": ["packages/config/*"],
+      "@hunk/db": ["packages/db/src"],
+      "@hunk/queue": ["packages/queue/src"],
+      "@hunk/github-client": ["packages/github-client/src"],
+      "@hunk/diff-parser": ["packages/diff-parser/src"],
+      "@hunk/scoring-engine": ["packages/scoring-engine/src"],
+      "@hunk/eval-harness": ["packages/eval-harness/src"],
+      "@hunk/ui": ["packages/ui/src"]
+    }
+  }
+}

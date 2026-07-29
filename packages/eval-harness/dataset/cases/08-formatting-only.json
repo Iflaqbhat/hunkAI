@@ -1,0 +1,5 @@
+{
+  "id": "08-formatting-only",
+  "expectedFindings": 0,
+  "diff": "- export   const  value=1;\n+ export const value = 1;\n"
+}

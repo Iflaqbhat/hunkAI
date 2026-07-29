@@ -1,0 +1,5 @@
+{
+  "id": "10-clean-memoization",
+  "expectedFindings": 0,
+  "diff": "- const result = slowCompute(data);\n+ const result = useMemo(() => slowCompute(data), [data]);\n"
+}

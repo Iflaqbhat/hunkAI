@@ -1,0 +1,5 @@
+{
+  "id": "02-unsanitized-input",
+  "expectedFindings": 1,
+  "diff": "- res.send(renderComment(body));\n+ res.send(renderComment(req.query.comment));\n"
+}

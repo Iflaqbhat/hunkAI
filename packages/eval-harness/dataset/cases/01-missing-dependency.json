@@ -1,0 +1,5 @@
+{
+  "id": "01-missing-dependency",
+  "expectedFindings": 1,
+  "diff": "- const value = computeTotals(orders);\n+ const value = computeTotals(orders, userId);\n"
+}
